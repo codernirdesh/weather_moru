@@ -30,7 +30,9 @@ class WeatherDataProvider with ChangeNotifier {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        print("Service : $_serviceEnabled");
+        if (kDebugMode) {
+          print("Service : $_serviceEnabled");
+        }
         _serviceEnabled = false;
         notifyListeners();
         return;
@@ -83,7 +85,9 @@ class WeatherDataProvider with ChangeNotifier {
         print(response.body);
       }
       if (response.statusCode == 200) {
-        print(response.body.toString().contains("error"));
+        if (kDebugMode) {
+          print(response.body.toString().contains("error"));
+        }
         // if the response contains "error" key, it means that the API has failed
         if (response.body.toString().contains("error")) {
           _failed = true;
@@ -117,7 +121,9 @@ class WeatherDataProvider with ChangeNotifier {
         print(response.body);
       }
       if (response.statusCode == 200) {
-        print(response.body.toString().contains("error"));
+        if (kDebugMode) {
+          print(response.body.toString().contains("error"));
+        }
         // if the response contains "error" key, it means that the API has failed
         if (response.body.toString().contains("error")) {
           _failed = true;
@@ -129,8 +135,10 @@ class WeatherDataProvider with ChangeNotifier {
           _failed = false;
           setWeatherData(weatherData);
           SharedPreferences.getInstance().then((prefs) {
-            prefs.setString('last_location', cityName);
-            print("Saved last location: ${prefs.getString("last_location")}");
+            prefs.setString('lastLocation', cityName);
+            if (kDebugMode) {
+              print("Saved last location: ${prefs.getString("lastLocation")}");
+            }
           });
         }
       } else {
