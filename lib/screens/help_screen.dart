@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_moru/providers/app_info_provider.dart';
 import '../providers/weather_data_provider.dart';
 import '../routes/routes_name.dart';
@@ -17,6 +18,12 @@ class HelpScreen extends StatelessWidget {
     weatherDataProvider.checkLocationServiceStatus();
     weatherDataProvider.checkLocationPermissionStatus();
     Timer.periodic(const Duration(seconds: 1), (timer) {
+      SharedPreferences.getInstance().then((prefs) {
+        if (prefs.getBool('hasPressedSkip') == true) {
+          timer.cancel();
+          return;
+        }
+      });
       int theTimer = Provider.of<AppInfoProvider>(context, listen: false).timer;
       if (kDebugMode) {
         print(theTimer);
@@ -51,7 +58,10 @@ class HelpScreen extends StatelessWidget {
               const SizedBox(height: 10.0),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  SharedPreferences.getInstance().then((prefs) {
+                    prefs.setBool('hasPressedSkip', true);
+                    Navigator.pushReplacementNamed(context, RoutesName.home);
+                  });
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.red[400]),
