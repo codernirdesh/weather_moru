@@ -18,10 +18,10 @@ class HomePage extends StatelessWidget {
     final weatherDataProvider =
         Provider.of<WeatherDataProvider>(context, listen: false);
     SharedPreferences.getInstance().then((prefs) {
-      String last_location = prefs.getString('last_location') ?? "";
-      if (last_location != "") {
-        _cityNameController.text = last_location;
-        weatherDataProvider.fetchWeatherDataByCityName(last_location);
+      String lastLocation = prefs.getString('lastLocation') ?? "";
+      if (lastLocation != "") {
+        _cityNameController.text = lastLocation;
+        weatherDataProvider.fetchWeatherDataByCityName(lastLocation);
       } else {
         if (weatherDataProvider.serviceEnabled &&
             weatherDataProvider.permissionGranted == PermissionStatus.granted) {
