@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_moru/providers/app_info_provider.dart';
-
 import '../providers/weather_data_provider.dart';
 import '../routes/routes_name.dart';
 
@@ -13,7 +12,10 @@ class HelpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<WeatherDataProvider>(context, listen: false).fetchWeatherData();
+    final weatherDataProvider =
+        Provider.of<WeatherDataProvider>(context, listen: false);
+    weatherDataProvider.checkLocationServiceStatus();
+    weatherDataProvider.checkLocationPermissionStatus();
     Timer.periodic(const Duration(seconds: 1), (timer) {
       int theTimer = Provider.of<AppInfoProvider>(context, listen: false).timer;
       if (kDebugMode) {
@@ -23,6 +25,7 @@ class HelpScreen extends StatelessWidget {
         Provider.of<AppInfoProvider>(context, listen: false).incrementTimer();
       } else {
         timer.cancel();
+        Provider.of<AppInfoProvider>(context, listen: false).setTimer(0);
         Navigator.pushReplacementNamed(context, RoutesName.home);
       }
     });
