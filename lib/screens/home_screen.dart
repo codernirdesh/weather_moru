@@ -105,13 +105,6 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Status : ${weatherDataProvider.failed}",
-                              style: const TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
                               "Location : ${weatherDataProvider.weatherData?.location.name ?? 0}/${weatherDataProvider.weatherData?.location.country ?? 0}",
                             ),
                             Text(
