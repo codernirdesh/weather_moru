@@ -10,7 +10,7 @@ class WeatherDataProvider with ChangeNotifier {
   bool _serviceEnabled = false;
   bool _failed = true;
   late loc.PermissionStatus _permissionGranted;
-  late loc.LocationData _locationData;
+  loc.LocationData _locationData = loc.LocationData.fromMap({});
 
   WeatherData? get weatherData => _weatherData;
   bool get serviceEnabled => _serviceEnabled;
