@@ -1,8 +1,6 @@
 // To parse this JSON data, do
 //
 //     final weatherData = weatherDataFromMap(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 WeatherData weatherDataFromMap(String str) =>
